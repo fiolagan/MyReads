@@ -1,9 +1,11 @@
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import { Route } from 'react-router-dom'
 import AssignBook from './AssignBook'
 
 class Book extends Component {
     render () {
-        const { book, handleChange, books, index } = this.props
+        const { book, handleChange, books, index, myShelfs } = this.props
        let bookImage
         if (typeof(book.imageLinks)  !== 'undefined') {
          bookImage = book.imageLinks.smallThumbnail
@@ -22,6 +24,7 @@ class Book extends Component {
                         book={book}
                         books={books}
                         index={index}
+                        myShelfs={myShelfs}
                     />
                     </div>
                     <div className="book-title">{book.title}</div>

@@ -18,19 +18,18 @@ class AssignBook extends Component {
     
 
     render () {
-        const { shelfLabel, handleChange, book, books, index } = this.props
+        const { shelfLabel, handleChange, book, books, index, myShelfs } = this.props
         return (
         
-              <div className="book-shelf-changer">
-                <select readOnly value={this.shelfLabelStatus(shelfLabel, book, books)} onChange={(e) => handleChange(book, e.target.value, index)}>
-                  <option value="move" disabled>Move to...</option>
-                  <option value="currentlyReading">Currently Reading</option>
-                  <option value="wantToRead">Want to Read</option>
-                  <option value="read">Read</option>
-                  <option value="null">None</option>
-                </select>
-                
-              </div>
+            <div className="book-shelf-changer">
+              <select readOnly value={this.shelfLabelStatus(shelfLabel, book, books)} onChange={(e) => handleChange(book, e.target.value, index)}>
+                <option value="move" disabled>Move to...</option>
+                {myShelfs.map((shelf) => (
+                  <option value={shelf.shelfCode} key={shelf.shelfID}>{shelf.shelfName}</option>
+                ))}
+                <option value="null">None</option>
+              </select>
+            </div>
             
         )
     }

@@ -24,7 +24,7 @@ class BooksApp extends React.Component {
     myShelfs: [
       {shelfName: 'Currently Reading', shelfCode: 'currentlyReading', shelfID: 1}, 
       {shelfName: 'Want to Read', shelfCode: 'wantToRead', shelfID: 2}, 
-      {shelfName: 'Read', shelfCode: 'read', shelfID: 3}
+      {shelfName: 'Read', shelfCode: 'read', shelfID: 3},
     ]
   }
 
@@ -76,6 +76,7 @@ class BooksApp extends React.Component {
           <Search 
           books={this.state.myBooks}
           handleChange={this.addToShelf}
+          myShelfs={myShelfs}
           />
         )} />
         <Route exact path='/' render={() => (
@@ -89,6 +90,7 @@ class BooksApp extends React.Component {
                 <Shelf 
                 shelfTitle={shelf.shelfName}
                 shelfName={shelf.shelfCode}
+                myShelfs={myShelfs}
                 books={this.state.myBooks}
                 handleChange={this.updateShelf}
                 key={shelf.shelfID}
