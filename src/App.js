@@ -8,6 +8,7 @@ import Shelf from './Shelf'
 
 class BooksApp extends React.Component {
 
+
   componentDidMount() {
     BooksAPI.getAll()
       .then((myBooks) => {
@@ -22,43 +23,59 @@ class BooksApp extends React.Component {
     ]
   }
 
-  
-
-  removeBook = (book) => {
-    let confirmDelete = window.confirm('Are you sure you want to remove ' + book.title + ' by ' + book.author + '?')
-    if (confirmDelete) {
+  removeFromShelf = (book) => {
     this.setState((currentState) => ({
       myBooks: currentState.myBooks.filter((c) => {
-        return c.title !== book.title
+        return c.id !== book.id
       })
     }))
   }
-  else {
-
-  }
-
-  }
  
-
-  updateShelf = (bookID, shelfSelect, book) => {
-    if (shelfSelect === 'none'){
-      this.removeBook(book)
-      
-      console.log(this)
-    } else {
+  updateShelf = (book, shelfSelect) => {
     let myBooks = [...this.state.myBooks];
-    myBooks[bookID].shelf = shelfSelect;
-    this.setState({myBooks});
-  }}
+    
+      function getIndex(id) {
+        return myBooks.findIndex(obj => obj.id === id);
+      }
+      let bookIndex = getIndex(book.id)
+      myBooks[bookIndex].shelf = shelfSelect;
+      this.setState({myBooks});
+
+    BooksAPI.update(book, shelfSelect)
+    if (shelfSelect === 'null') {
+      this.removeFromShelf(book)
+    } 
+  }
+
+  
+
+  addToShelf = (book, shelfSelect) => {
+    this.removeFromShelf(book)
+
+    if (shelfSelect !== 'null') {
+    BooksAPI.update(book, shelfSelect)
+    .then(() => {
+      let myBook = book;
+      myBook["shelf"] = shelfSelect;
+      this.setState((currentState) => ({
+        myBooks: currentState.myBooks.concat([myBook])
+      }))
+    })  
+    } 
+}
+
+  
+
 
   render() {
-    console.log(this.state.myBooks)
-    return (
-      
+    return (   
       <div className="app">
         
          <Route exact path='/search' render={() => (
-          <Search />
+          <Search 
+          books={this.state.myBooks}
+          handleChange={this.addToShelf}
+          />
         )} />
         <Route exact path='/' render={() => (
           <div className="list-books">
@@ -83,13 +100,6 @@ class BooksApp extends React.Component {
                 <Shelf 
                 shelfTitle="Read"
                 shelfName="read"
-                books={this.state.myBooks}
-                handleChange={this.updateShelf}
-                />
-
-<Shelf 
-                shelfTitle="None"
-                shelfName="undefined"
                 books={this.state.myBooks}
                 handleChange={this.updateShelf}
                 />

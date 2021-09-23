@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-import AssignBook from './AssignBook'
+
+import Book from './Book'
 
 class Shelf extends Component {
     render () {
@@ -12,22 +13,14 @@ class Shelf extends Component {
 
                     {books.map((book, index) => (
                     book.shelf === shelfName?
-                    
-                      <li key={index}>
-                        <div className="book">
-                          <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
-                            <AssignBook 
-                                shelfLabel={book.shelf}
-                                bookID={index}
-                                handleChange={handleChange}
-                                book={book}
-                            />
-                          </div>
-                          <div className="book-title">{book.title}</div>
-                          <div className="book-authors">{book.authors.join(" and ")}</div>
-                        </div>
-                      </li>:
+                      <Book 
+                      index={index}
+                      book={book}
+                      handleChange={handleChange}
+                      key={book.id}
+                      books={books}
+                      />
+                      :
                       null
                       ))}
                     </ol>
