@@ -139,7 +139,7 @@ button:active {
 }
 
 .book {
-  width: 140px;
+  width: 120px;
 }
 
 .book-title,
@@ -157,12 +157,13 @@ button:active {
 
 .book-top {
   position: relative;
-  height: 220px;
+  height: 167px;
   display: flex;
   align-items: flex-start;
   background-image: url('./icons/book-mount.png');
   background-repeat: no-repeat;
-  background-position:-1px 1px
+  background-position:-1px 1px;
+  background-size:105px 157px
 }
 
 .book-shelf-changer {
