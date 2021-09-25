@@ -5,6 +5,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Search from './Search'
 import Shelf from './Shelf'
+import ExtendedInfo from './ExtendedInfo'
 
 class BooksApp extends React.Component {
 
@@ -22,10 +23,11 @@ class BooksApp extends React.Component {
     myBooks: [
     ],
     myShelfs: [
-      {shelfName: 'Currently Reading', shelfCode: 'currentlyReading', shelfID: 1}, 
-      {shelfName: 'Want to Read', shelfCode: 'wantToRead', shelfID: 2}, 
-      {shelfName: 'Read', shelfCode: 'read', shelfID: 3},
-    ]
+      {shelfName: 'Currently Reading', shelfCode: 'currentlyReading'}, 
+      {shelfName: 'Want to Read', shelfCode: 'wantToRead'}, 
+      {shelfName: 'Read', shelfCode: 'read'},
+    ],
+    extendedInfo: []
   }
 
   removeFromShelf = (book) => {
@@ -36,19 +38,19 @@ class BooksApp extends React.Component {
     }))
   }
  
-  updateShelf = (book, shelfSelect) => {
-    let myBooks = [...this.state.myBooks];  
-      function getIndex(id) {
-        return myBooks.findIndex(obj => obj.id === id);
-      }
-      let bookIndex = getIndex(book.id)
-      myBooks[bookIndex].shelf = shelfSelect;
-      this.setState({myBooks});
-    BooksAPI.update(book, shelfSelect)
-    if (shelfSelect === 'null') {
-      this.removeFromShelf(book)
-    } 
-  }
+  // updateShelf = (book, shelfSelect) => {
+  //   let myBooks = [...this.state.myBooks];  
+  //     function getIndex(id) {
+  //       return myBooks.findIndex(obj => obj.id === id);
+  //     }
+  //     let bookIndex = getIndex(book.id)
+  //     myBooks[bookIndex].shelf = shelfSelect;
+  //     this.setState({myBooks});
+  //   BooksAPI.update(book, shelfSelect)
+  //   if (shelfSelect === 'null') {
+  //     this.removeFromShelf(book)
+  //   } 
+  // }
 
   
 
@@ -66,10 +68,23 @@ class BooksApp extends React.Component {
     } 
 }
 
+displayBookDetails = (book) => {
+  this.setState((currentState) => ({
+    extendedInfo: currentState.extendedInfo.concat([book])
+    }))
+}
+
+closeExtended = (bookInfo) => {
+  this.setState((currentState) => ({
+    extendedInfo: currentState.extendedInfo.filter((c) => {
+      return c.id !== bookInfo.id
+    })
+  }))
+}
 
 
   render() {
-    const { myShelfs } = this.state
+    const { myShelfs, extendedInfo } = this.state
     return (   
       <div className="app">
          <Route exact path='/search' render={() => (
@@ -77,26 +92,31 @@ class BooksApp extends React.Component {
           books={this.state.myBooks}
           handleChange={this.addToShelf}
           myShelfs={myShelfs}
+          displayBookDetails={this.displayBookDetails}
           />
         )} />
         <Route exact path='/' render={() => (
           <div className="list-books">
             <div className="list-books-title">
-              <h1>MyReads</h1>
+              <div className="logo"></div>
             </div>
             <div className="list-books-content">
 
-            {myShelfs.map((shelf) => (
-                <Shelf 
-                shelfTitle={shelf.shelfName}
-                shelfName={shelf.shelfCode}
-                myShelfs={myShelfs}
-                books={this.state.myBooks}
-                handleChange={this.updateShelf}
-                key={shelf.shelfID}
-                />
-            ))}
+              {myShelfs.map((shelf, index) => (
+                  <Shelf 
+                  shelfTitle={shelf.shelfName}
+                  shelfName={shelf.shelfCode}
+                  myShelfs={myShelfs}
+                  books={this.state.myBooks}
+                  handleChange={this.addToShelf}
+                  key={index}
+                  displayBookDetails={this.displayBookDetails}
+                  />
+              ))}
             </div>
+
+           
+
             <div className="open-search">
               <Link
               to='/search'
@@ -107,6 +127,20 @@ class BooksApp extends React.Component {
           </div>
         )} />
 
+        {/* Display Extended Info */}
+            
+        {extendedInfo.length > 0 && (
+              extendedInfo.map((bookInfo) => 
+                <ExtendedInfo 
+                bookInfo={bookInfo}
+                myShelfs={myShelfs}
+                handleChange={this.addToShelf}
+                key={bookInfo.id}
+                books={this.state.myBooks}
+                closeExtended={this.closeExtended}
+                />
+              ))
+            }
       </div>
     )
   }

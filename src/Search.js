@@ -40,17 +40,25 @@ state = {
 
     render () {
       const { query } = this.state.query
-      const { books, handleChange, myShelfs } = this.props
+      const { books, handleChange, myShelfs, displayBookDetails } = this.props
       const bookSearch = this.state.mySearch
         return (
           <div className="search-books">
-            <div className="search-books-bar">
+            <div className="list-books-title">
+            <Link
+              to='/'
+              ><div className="logo"></div>
+              </Link>
+                
+              </div>
+              <div className="search-books-bar">
               <Link
               className="close-search"
               to='/'
               >
               close
               </Link>
+              
               <div className="search-books-input-wrapper">
                 <input 
                 type="text" 
@@ -72,6 +80,7 @@ state = {
                     key={book.id}
                     books={books}
                     myShelfs={myShelfs}
+                    displayBookDetails={displayBookDetails}
                     />
                 )
                 : <div>No books showing for the search {this.state.query}</div>

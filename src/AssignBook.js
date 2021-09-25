@@ -24,8 +24,8 @@ class AssignBook extends Component {
             <div className="book-shelf-changer">
               <select readOnly value={this.shelfLabelStatus(shelfLabel, book, books)} onChange={(e) => handleChange(book, e.target.value, index)}>
                 <option value="move" disabled>Move to...</option>
-                {myShelfs.map((shelf) => (
-                  <option value={shelf.shelfCode} key={shelf.shelfID}>{shelf.shelfName}</option>
+                {myShelfs.map((shelf, index) => (
+                  <option value={shelf.shelfCode} key={index}>{shelf.shelfName}</option>
                 ))}
                 <option value="null">None</option>
               </select>

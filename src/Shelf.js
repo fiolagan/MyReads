@@ -4,7 +4,8 @@ import Book from './Book'
 
 class Shelf extends Component {
     render () {
-        const { shelfTitle, books, shelfName, handleChange, myShelfs } = this.props
+        const { shelfTitle, books, shelfName, handleChange, myShelfs, displayBookDetails } = this.props
+        
         return (
             <div className="bookshelf">
               <h2 className="bookshelf-title">{shelfTitle}</h2>
@@ -20,6 +21,7 @@ class Shelf extends Component {
                   key={book.id}
                   books={books}
                   myShelfs={myShelfs}
+                  displayBookDetails={displayBookDetails}
                   />
                   :
                   null
