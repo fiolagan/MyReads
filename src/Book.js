@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import AssignBook from './AssignBook'
 
+
 class Book extends Component {
     render () {
         const { book, handleChange, books, index, myShelfs, displayBookDetails } = this.props

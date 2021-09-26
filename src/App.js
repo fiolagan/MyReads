@@ -37,22 +37,7 @@ class BooksApp extends React.Component {
       })
     }))
   }
- 
-  // updateShelf = (book, shelfSelect) => {
-  //   let myBooks = [...this.state.myBooks];  
-  //     function getIndex(id) {
-  //       return myBooks.findIndex(obj => obj.id === id);
-  //     }
-  //     let bookIndex = getIndex(book.id)
-  //     myBooks[bookIndex].shelf = shelfSelect;
-  //     this.setState({myBooks});
-  //   BooksAPI.update(book, shelfSelect)
-  //   if (shelfSelect === 'null') {
-  //     this.removeFromShelf(book)
-  //   } 
-  // }
-
-  
+   
 
   addToShelf = (book, shelfSelect) => {
     this.removeFromShelf(book)
